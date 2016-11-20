@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+	<meta charset="UTF-8">
+	<title>Eduweb.pl - Bootcamp</title>
+	<meta name="description" content="Site contain every exercise done on bootcamp">
+	<meta name="author" content="Mateusz Chmielarz">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style>
+		.bg { background: #ffc2c2; font-weight: bold; border: 2px solid #ff9595; } body section { max-width: 600px; margin: 20px auto; } body h2 { background: #d4d4d4; border: 2px solid #9d9d9d; padding: 5px; padding-left: 20px; } body > h2 { text-align: center; font-size: 50px; margin: 0; padding: 0; background: none; border: 0; } body .answer { border-top: 2px solid #9d9d9d; padding-top: 20px; } body .answer .zadanie4 { border: 2px solid #ff9595; } body .answer > a { display: block; width: 250px; text-align: center; margin-right: 10%; margin-left: auto; color: #9d9d9d; font-weight: bold; font-size: 20px; } body ol li { margin: 10px auto; } body #side-menu { width: 150px; position: fixed; top: calc(50% - 100px); left: -150px; background: #000; color: white; border-radius: 0 0 5px 0; } body #side-menu ul { list-style: none; padding: 0; text-align: center; } body #side-menu ul a { display: block; padding: 5px 0; color: white; text-decoration: none; font-size: 20px; width: 100%; } body #side-menu ul a:hover { background: grey; } body #btn { position: fixed; top: calc(50% - 100px); left: 0; height: 50px; width: 50px; background: #000; color: white; border: 0; border-left: 2px solid grey; border-radius: 0 5px 0 0; outline: none; } body #btn1 { position: fixed; top: calc(50% - 50px); left: 0; height: 50px; width: 50px; background: white; color: black; border: 2px solid black; border-left: 0; border-top: 0; border-radius: 0 0 5px 0; outline: none; }
+	</style>
+</head>
+<body>
+	<section id="zad3">
+		<div class="headline">
+			<h2>Zadanie nr 3</h2>
+			<h3>Ajaxowy polyfill dla funkcji fetch</h3>
+			<p>Napisz polyfill dla funkcji fetch (nie będziemy się tutaj trzymać dokładnie tego, w jaki sposób ona działa, stworzysz jedynie prostą jej wersję). Wykorzystaj obiekt XMLHttpRequest w ten sposób, aby docelowo korzystanie z funkcji fetch wyglądało następująco:<br><br>
+			fetch("url", function(data) {<br>
+					console.log("Sukces");<br>
+					console.log(data);<br>
+				}, <br>
+			function(err) {<br>
+				console.log("Wystąpił błąd!");<br>
+				console.log(err);<br>
+			});<br><br>
+			a zatem jako pierwszy argument przekazujemy adres URL (wyślij pod niego zapytanie GET), jako drugi funkcję, którą należy wykonać jeśli wszystko się powiedzie (przekaż jej pobrane dane), a jako trzeci funkcję, która wykona się na wypadek błędu (przekaż jej obiekt z błędem lub komunikat tekstowy). W nowoczesnych przeglądarkach istnieje już funkcja fetch, a zatem aby jej nie nadpisywać, możesz nadać jej inną nazwę. Jako adres URL, z którego pobierane bedą dane, możesz wykorzytać https://jsonplaceholder.typicode.com/users</p>
+		</div>
+		<div class="answer">
+			<a href="https://github.com/chmielinho/eduweb_w2-e3">Rozwiązanie na github.com</a>
+			<button id="button">Przycisk</button>
+		</div>
+	</section>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
+	<script>
+		(function(){
+			var button = document.querySelector('#button');
+			function fetchh(url, success, error){
+				var xhr = new XMLHttpRequest();
+				xhr.open('GET', url, true);
+				xhr.onload = function() {
+					if(xhr.status == 200) {
+						success(xhr.responseText);
+					} else {
+						console.log('Wystąpił bląd: ' + xhr.status)
+					}
+				};
+				xhr.onerror = function() {
+					error(console.log('Wystąpił nieznany błąd !!!'))
+				};
+				xhr.send();
+			}
+			
+			button.addEventListener('click', function(event){
+				fetchh('https://jsonplaceholder.typicode.com/users', function(data) {
+					console.log("Sukces");
+					console.log(data);
+				},
+				function(err) {
+					console.log("Wystąpił błąd!");
+					console.log(err);
+				});
+			}, false);
+		})();
+	</script>
+</body>
+</html>
